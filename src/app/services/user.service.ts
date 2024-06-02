@@ -12,9 +12,15 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(page: number = 1): Observable<UserModel[]> {
-    return this.http.get(`${this.apiURL}/users?page=${page}`).pipe(map((res: any) => {
+  getUsers(page: number, per_page: number): Observable<UserModel[]> {
+    return this.http.get(`https://reqres.in/api/users?page=${page}&per_page=${per_page}`).pipe(map((res: any) => {
       return res['data'];
+    }));
+  }
+
+  getUserSize(): Observable<number>{
+    return this.http.get(`${this.apiURL}/users`).pipe(map((res: any) => {
+      return res['total'];
     }));
   }
 }

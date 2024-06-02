@@ -15,4 +15,10 @@
             </div>
         </div>
     </div>
+    <app-paginator
+    [totalRecords]="totalUsers"
+    [recordsPerPage]="recordsPerPage"
+    (sendPaginator)="changePage($event)"
+    >
+  </app-paginator>
 </div>
