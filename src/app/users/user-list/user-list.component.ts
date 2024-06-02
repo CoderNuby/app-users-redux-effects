@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserModel } from '../../models/userModel';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app.reducers';
+import { loadingUsers } from '../../store/actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -14,13 +18,27 @@ export class UserListComponent implements OnInit {
   recordsPerPage: number = 6;
   totalUsers: number = 0;
 
-  constructor(private userService: UserService){
+  loading: boolean = false;
+  error: any;
+
+  usersStoreSub!: Subscription;
+
+  constructor(
+    private userService: UserService,
+    private store: Store<AppState>
+  ){
   }
 
   ngOnInit(): void{
-    this.getUsersCurrentPage();
-    this.userService.getUserSize().subscribe(userLen => {
+    this.userService.getUsersSize().subscribe(userLen => {
       this.totalUsers = userLen;
+    });
+
+    this.getUsersCurrentPage();
+    this.usersStoreSub = this.store.select('users').subscribe((state) => {
+      this.users = state.users;
+      this.loading = state.loading;
+      this.error = state.error;
     });
   }
 
@@ -30,8 +48,6 @@ export class UserListComponent implements OnInit {
   }
 
   getUsersCurrentPage(){
-    this.userService.getUsers(this.currentPage, this.recordsPerPage).subscribe((users) => {
-      this.users = users;
-    });
+    this.store.dispatch(loadingUsers({page: this.currentPage, per_page: this.recordsPerPage}));
   }
 }

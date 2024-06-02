@@ -9,16 +9,23 @@ import { UserModel } from '../models/userModel';
 export class UserService {
 
   private apiURL = "https://reqres.in/api";
+  delay: number = 1;
 
   constructor(private http: HttpClient) { }
 
-  getUsers(page: number, per_page: number): Observable<UserModel[]> {
-    return this.http.get(`https://reqres.in/api/users?page=${page}&per_page=${per_page}`).pipe(map((res: any) => {
+  getUsers(page: number, per_page: number) {
+    return this.http.get(`${this.apiURL}/users?page=${page}&per_page=${per_page}&delay=${this.delay}`).pipe(map((res: any) => {
       return res['data'];
     }));
   }
 
-  getUserSize(): Observable<number>{
+  getUserById(id: number){
+    return this.http.get(`${this.apiURL}/users/${id}?delay=${this.delay}`).pipe(map((res: any) => {
+      return res["data"];
+    }));
+  }
+
+  getUsersSize(): Observable<number>{
     return this.http.get(`${this.apiURL}/users`).pipe(map((res: any) => {
       return res['total'];
     }));
