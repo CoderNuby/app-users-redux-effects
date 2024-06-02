@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserModel } from '../../models/userModel';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
 
   users: UserModel[] = [];
   currentPage: number = 0;
@@ -27,6 +27,10 @@ export class UserListComponent implements OnInit {
     private userService: UserService,
     private store: Store<AppState>
   ){
+  }
+
+  ngOnDestroy(): void {
+    this.usersStoreSub.unsubscribe();
   }
 
   ngOnInit(): void{

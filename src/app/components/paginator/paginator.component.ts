@@ -22,6 +22,7 @@ export class PaginatorComponent {
 
   
   @Output() sendPaginator = new EventEmitter();
+  @Input() disableButtos: boolean = true;
   @Input() totalRecords: number = 0;
   @Input() recordsPerPage: number = 0;
   

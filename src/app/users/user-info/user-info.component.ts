@@ -34,7 +34,6 @@ export class UserInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routerSub = this.router.params.subscribe((params) => {
-      console.log(params['id']);
       this.store.dispatch(loadingUser({id: params['id']}));
     });
 

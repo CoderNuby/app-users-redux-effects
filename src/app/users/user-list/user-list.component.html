@@ -29,10 +29,11 @@
             </div>
         </div>
     </div>
-    <app-paginator
+</div>
+<app-paginator
+    [disableButtos]="loading"
     [totalRecords]="totalUsers"
     [recordsPerPage]="recordsPerPage"
     (sendPaginator)="changePage($event)"
-    >
-  </app-paginator>
-</div>
+>
+</app-paginator>

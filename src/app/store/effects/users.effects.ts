@@ -19,7 +19,7 @@ export class UsersEffects {
 
     loadingUsers$ =  createEffect(() => this.actions$.pipe(
         ofType(loadingUsers),
-        switchMap( (action) => {
+        switchMap((action) => {
             return this.userService.getUsers(action.page, action.per_page).pipe(
                 map((users: UserModel[]) => {
                     return loadedUsersSuccess({users});
